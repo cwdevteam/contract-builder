@@ -17,7 +17,10 @@ const SubmitForm = () => {
         <p className="text-white md:text-3xl tracking-[-0.05rem] font-share pt-6 text-[20px]">
           What is the name of the song?
         </p>
-        <label htmlFor="#songName" className="mt-6 text-[#696969] text-[15px]">
+        <label
+          htmlFor="#songName"
+          className="mt-6 flex flex-col gap-2 text-[#696969] text-[15px]"
+        >
           <p>Song composition</p>
           <input
             id="songName"
