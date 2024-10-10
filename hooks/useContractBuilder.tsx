@@ -13,15 +13,18 @@ export enum CONTRACT_BUILDER_STEP {
   SUCCESS,
 }
 
+
+
 export enum SPLIT_TYPE {
-  SONG_WRITING,
-  MASTER_RECORDING,
-  BOTH,
+  SONG_WRITING = 'Song Writing',
+  MASTER_RECORDING = 'Master Recording',
+  BOTH = 'Both',
 }
 
+
 export enum GOVERNANCE_TYPE {
-  VOTE,
-  DESIGNATE_ADMIN,
+  VOTE = 'Vote',
+  DESIGNATE_ADMIN = 'Designate Administrator',
 }
 
 const useContractBuilder = () => {
