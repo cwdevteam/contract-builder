@@ -1,9 +1,42 @@
 import { useContractBuilderProvider } from '@/providers/ContractBuilderProvider'
+import { isPdfDownloaded } from '@/lib/supabase/isPdfDownloaded'
 import Button from '../Button'
 import PassedQuestions from '../PassedQuestions'
+import { getPdf } from '@/utils/getPdf'
+import { uploadFile } from '@/lib/ipfs/uploadToIpfs'
+import { addCid } from '@/lib/supabase/cid'
+import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
 
 const CreatedResult = () => {
-  const { downloadUnsignedVersion } = useContractBuilderProvider()
+  const { collaboratorDbId } = useContractBuilderProvider()
+  const [uploadingPdf, setUploadingPdf] = useState(false)
+
+  const downloadPdf = async () => {
+    const pdf = await getPdf('unsigned-version')
+
+    if (!collaboratorDbId || !pdf) return
+
+    pdf.save('unsigned-version.pdf')
+
+    await isPdfDownloaded(collaboratorDbId)
+  }
+
+  const uploadPdf = async () => {
+    setUploadingPdf(true)
+
+    const pdf = await getPdf('unsigned-version')
+
+    if (!collaboratorDbId || !pdf) return
+
+    const file = new File([pdf.output('blob')], 'unsigned-version')
+
+    const { cid } = await uploadFile(file)
+
+    await addCid(collaboratorDbId, cid)
+
+    setUploadingPdf(false)
+  }
 
   return (
     <section className="flex flex-col">
@@ -29,15 +62,23 @@ const CreatedResult = () => {
         </Button>
         <Button
           className="py-1 md:text-md text-[11px] md:min-w-[540px] min-w-[312px] min-h-[41px]"
-          onClick={downloadUnsignedVersion}
+          onClick={downloadPdf}
         >
           Download unsigned version
         </Button>
         <Button
           className="py-1 md:text-md text-[11px] md:min-w-[540px] min-w-[312px] min-h-[41px]"
-          onClick={() => {}}
+          onClick={uploadPdf}
+          disabled={uploadingPdf}
         >
-          Send DocuSign to collaborators
+          {uploadingPdf ? (
+            <div className="flex justify-center">
+              <Loader2 className="mr-2 size-4 animate-spin" />
+              Loading...
+            </div>
+          ) : (
+            ' Send DocuSign to collaborators'
+          )}
         </Button>
       </div>
     </section>

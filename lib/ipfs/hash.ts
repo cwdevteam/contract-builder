@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto'
+import { createHash } from 'crypto'
 
 export function hashFiles(files: File[]): string {
   const hash = createHash('sha256')
