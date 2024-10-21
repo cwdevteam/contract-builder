@@ -1,7 +1,8 @@
 import { useContractBuilderProvider } from '@/providers/ContractBuilderProvider'
 
 const Descriptions = () => {
-  const { collaborators, currentCollaborator } = useContractBuilderProvider()
+  const { collaborators, currentCollaborator, splitType } =
+    useContractBuilderProvider()
 
   return (
     <>
@@ -35,7 +36,18 @@ const Descriptions = () => {
       <p className="font-roboto text-2xl">
         Contribution:
         <span className="text-danger-dark font-extrabold font-rubik">
-          {collaborators[currentCollaborator].typeOfSongWritingContribution}
+          {splitType === 'Song Writing' &&
+            collaborators[currentCollaborator].typeOfSongWritingContribution}
+
+          {splitType === 'Master Recording' &&
+            collaborators[currentCollaborator].typeOfMasterContribution}
+
+          {splitType === 'Both' && (
+            <>
+              {collaborators[currentCollaborator].typeOfSongWritingContribution}
+              ,{collaborators[currentCollaborator].typeOfMasterContribution}
+            </>
+          )}
         </span>
       </p>
       <p className="font-roboto text-2xl">
