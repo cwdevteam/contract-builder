@@ -1,10 +1,9 @@
-import { useContractBuilderProvider } from '@/providers/ContractBuilderProvider'
 import Button from '../Button'
 import PassedQuestions from '../PassedQuestions'
+import useDownloadUnsignedVersion from '@/hooks/useDownloadUnsignedVersion'
 
 const CreatedResult = () => {
-  const { collaboratorDbId, downloadUnsignedVersion } =
-    useContractBuilderProvider()
+  const { downloadUnsignedVersion } = useDownloadUnsignedVersion()
 
   return (
     <section className="flex flex-col">
@@ -30,7 +29,7 @@ const CreatedResult = () => {
         </Button>
         <Button
           className="py-1 md:text-md text-[11px] md:min-w-[540px] min-w-[312px] min-h-[41px]"
-          onClick={() => downloadUnsignedVersion(collaboratorDbId)}
+          onClick={() => downloadUnsignedVersion()}
         >
           Download unsigned version
         </Button>

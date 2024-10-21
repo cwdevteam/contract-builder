@@ -1,12 +1,14 @@
 import { setPdfDownloaded } from '@/lib/supabase/setPdfDownloaded'
+import { useContractBuilderProvider } from '@/providers/ContractBuilderProvider'
 import html2canvas from 'html2canvas'
 import jsPdf from 'jspdf'
 import { useState } from 'react'
 
 const useDownloadUnsignedVersion = () => {
+  const { collaboratorDbId } = useContractBuilderProvider()
   const [downloading, setDownloading] = useState(false)
 
-  const downloadUnsignedVersion = async (collaboratorDbId?: string) => {
+  const downloadUnsignedVersion = async () => {
     setDownloading(true)
 
     const domElement = document.getElementById('unsigned-version')
